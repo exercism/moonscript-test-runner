@@ -1,0 +1,1 @@
+{"status":"error","tests":[],"message":"./example_empty_file_spec.moon:5: attempt to call a boolean value (upvalue 'is_leap_year')","version":2}
