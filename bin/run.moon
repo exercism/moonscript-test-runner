@@ -37,7 +37,7 @@ validate = (args) ->
   {slug, src_dir, dest_dir} = args
   assert slug != '', 'First arg, the slug, cannot be empty'
   assert is_directory(src_dir), 'Second arg, the solution directory, must be a directory'
-  assert is_directory(dest_dir), 'Second arg, the output directory, must be a directory'
+  assert is_directory(dest_dir), 'Third arg, the output directory, must be a directory'
 
   slug, realpath(src_dir), realpath(dest_dir)
 
