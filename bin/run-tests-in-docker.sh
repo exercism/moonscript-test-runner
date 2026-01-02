@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+set -e
 
 # Synopsis:
 # Test the test runner Docker image by running it against a predefined set of 
@@ -11,9 +12,6 @@
 
 # Example:
 # ./bin/run-tests-in-docker.sh
-
-# Stop executing when a command returns a non-zero return code
-set -e
 
 # Build the Docker image
 docker build --rm -t exercism/moonscript-test-runner .
