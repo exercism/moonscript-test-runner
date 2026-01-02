@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 set -e
 
 # Synopsis:
@@ -19,7 +19,7 @@ set -e
 
 # If any required arguments is missing, print the usage and exit
 if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
-    echo "usage: ./bin/run-in-docker.sh exercise-slug /absolute/path/to/solution/folder/ /absolute/path/to/output/directory/"
+    echo "usage: $0 exercise-slug /absolute/path/to/solution/folder/ /absolute/path/to/output/directory/"
     exit 1
 fi
 

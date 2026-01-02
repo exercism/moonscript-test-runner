@@ -171,7 +171,7 @@ write_results = (slug, test_results, names, bodies, dir) ->
 
 -- -----------------------------------------------------------
 main = (args) ->
-  opts,optind = getopt.get_opts args, 'hv', {}
+  opts, optind = getopt.get_opts args, 'hv', {}
 
   show_help args if opts.h
   verbose = not not opts.v
