@@ -33,6 +33,7 @@ RUN curl -R -O -L https://luarocks.org/releases/luarocks-${LUAROCKS_VER}.tar.gz 
     rm -rf luarocks-${LUAROCKS_VER}
 
 RUN luarocks install busted
+RUN luarocks install alt-getopt
 RUN luarocks install moonscript
 
 COPY . /opt/test-runner

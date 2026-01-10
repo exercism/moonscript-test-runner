@@ -29,5 +29,5 @@ docker run \
     --mount type=bind,src="${PWD}/track",dst=/opt/test-runner/track \
     --mount type=tmpfs,dst=/tmp \
     --workdir /opt/test-runner \
-    --entrypoint /opt/test-runner/track/bin/test-all \
+    --entrypoint /opt/test-runner/track/bin/verify-exercises \
     exercism/moonscript-test-runner
