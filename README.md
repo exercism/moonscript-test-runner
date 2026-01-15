@@ -1,6 +1,6 @@
 # Exercism MoonScript Test Runner
 
-The Docker image to automatically run tests on MoonScript solutions submitted to [Exercism].
+The Docker image to automatically run tests on [MoonScript](https://github.com/exercism/moonscript) solutions submitted to [Exercism].
 
 ## Run the test runner
 
