@@ -1,12 +1,12 @@
-FROM ubuntu:24.04@sha256:c4a8d5503dfb2a3eb8ab5f807da5bc69a85730fb49b5cfca2330194ebcc41c7b AS builder
+FROM ubuntu:26.04@sha256:f3d28607ddd78734bb7f71f117f3c6706c666b8b76cbff7c9ff6e5718d46ff64 AS builder
 
-ENV LUA_VER="5.4.8"
-ENV LUA_CHECKSUM="4f18ddae154e793e46eeab727c59ef1c0c0c2b744e7b94219710d76f530629ae"
-ENV LUAROCKS_VER="3.12.0"
+ENV LUA_VER="5.5.0"
+ENV LUA_CHECKSUM="57ccc32bbbd005cab75bcc52444052535af691789dba2b9016d5c50640d68b3d"
+ENV LUAROCKS_VER="3.13.0"
 ENV LUAROCKS_GPG_KEY="3FD8F43C2BB3C478"
 
 RUN apt-get update && \
-    apt-get install -y curl gcc make unzip gnupg git && \
+    apt-get install --yes --no-install-recommends build-essential ca-certificates curl gcc git gnupg make unzip && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get purge --auto-remove && \
     apt-get clean
@@ -39,10 +39,10 @@ RUN luarocks install date
 RUN luarocks install lua-tz
 RUN luarocks install luatz
 
-FROM ubuntu:24.04@sha256:c4a8d5503dfb2a3eb8ab5f807da5bc69a85730fb49b5cfca2330194ebcc41c7b
+FROM ubuntu:26.04@sha256:f3d28607ddd78734bb7f71f117f3c6706c666b8b76cbff7c9ff6e5718d46ff64
 
 RUN apt-get update && \
-    apt-get install -y jq tzdata && \
+    apt-get install --yes --no-install-recommends jq tzdata && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get purge --auto-remove && \
     apt-get clean
