@@ -66,6 +66,7 @@ run_tests = (slug, dir) ->
     }
 
   data = json.decode json_output
+  -- p data
 
   if not data
     output = json_output
@@ -96,22 +97,22 @@ run_tests = (slug, dir) ->
   results = {}
 
   for test in *data.successes
-    results[test.element.name] = {
+    results[test.name] = {
       status: 'pass',
-      name: test.element.name,
+      name: test.name,
     }
 
   for test in *data.failures
-    results[test.element.name] = {
+    results[test.name] = {
       status: 'fail',
-      name: test.element.name,
+      name: test.name,
       message: test.trace.message,
     }
 
   for test in *data.errors
-    results[test.element.name] = {
+    results[test.name] = {
       status: 'error',
-      name: test.element.name,
+      name: test.name,
       message: test.trace.message,
     }
   
@@ -138,16 +139,22 @@ get_test_bodies = (slug, dir) ->
   local test_name
   test_body = {}
   in_test = false
+  sections = {}
 
   for line in fh\lines!
     -- do not look for any tests after this line, they won't run in test environment
     break if line\match '-- The next tests are optional.'
 
-    if line\match '^%s+describe '
+    indent, section_name = line\match '^(%s*)describe%s+[\'"](.+)[\'"],%s+->'
+    if section_name
       if test_name
         bodies[test_name] = table.concat test_body, '\n'
         test_body = {}
         test_name = nil
+
+      indent_level = 1 + #indent / 2
+      sections = {table.unpack sections, 1, indent_level}  -- discard any deeper indents
+      sections[indent_level] = section_name
       in_test = false
 
     m = line\match(patterns.it) or line\match(patterns.pending)
@@ -155,11 +162,11 @@ get_test_bodies = (slug, dir) ->
       if in_test
         table.insert test_body, line
     else
-      table.insert order, m
       if in_test
         bodies[test_name] = table.concat test_body, '\n'
         test_body = {}
-      test_name = m
+      test_name = table.concat(sections, ' ') .. ' ' .. m
+      table.insert order, test_name
       in_test = true
 
   fh\close!

@@ -1,6 +1,6 @@
 is_leap_year = require 'example_all_fail'
 
-describe 'leap', ->
+describe 'leap:', ->
   it 'a known leap year', ->
     assert.is_true is_leap_year 1996
 
