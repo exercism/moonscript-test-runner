@@ -1,6 +1,6 @@
 is_leap_year = require 'example_empty_file'
 
-describe 'leap', ->
+describe 'leap:', ->
   it 'a known leap year', ->
     assert.is_true is_leap_year 1996
 
