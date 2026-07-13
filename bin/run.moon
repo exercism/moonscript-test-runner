@@ -133,7 +133,7 @@ get_test_bodies = (slug, dir) ->
 
   fh = io.open test_file, 'r'
 
-  pattern = (word) -> '^%s+' .. word .. '%s+[\'"](.+)[\'"],%s+->'
+  pattern = (word) -> '^(%s+)' .. word .. '%s+[\'"](.+)[\'"],%s+->'
   patterns = it: pattern('it'), pending: pattern('pending')
 
   local test_name
@@ -152,25 +152,33 @@ get_test_bodies = (slug, dir) ->
         test_body = {}
         test_name = nil
 
-      indent_level = 1 + #indent / 2
-      sections = {table.unpack sections, 1, indent_level}  -- discard any deeper indents
-      sections[indent_level] = section_name
+      group_indent_level = #indent // 2 + 1
+      sections = {table.unpack sections, 1, group_indent_level}  -- discard any deeper indents
+      sections[group_indent_level] = section_name
       in_test = false
 
-    m = line\match(patterns.it) or line\match(patterns.pending)
-    if not m
+    indent, name = line\match(patterns.it)
+    if not indent
+      indent, name = line\match(patterns.pending)
+    -- p {:line, :indent, :name}
+    if not name
       if in_test
         table.insert test_body, line
     else
       if in_test
         bodies[test_name] = table.concat test_body, '\n'
         test_body = {}
-      test_name = table.concat(sections, ' ') .. ' ' .. m
+
+      group_indent_level = #indent // 2 -- note this is one less than the "describe" group level
+      -- p {:group_indent_level, :name, :sections}
+      sections = {table.unpack sections, 1, group_indent_level}  -- discard any deeper indents
+      test_name = table.concat(sections, ' ') .. ' ' .. name
       table.insert order, test_name
       in_test = true
 
   fh\close!
-  bodies[test_name] = table.concat test_body, '\n'
+  if test_name
+    bodies[test_name] = table.concat test_body, '\n'
   -- p {:order, :bodies}
   order, bodies
 
@@ -193,7 +201,7 @@ write_results = (slug, test_results, names, bodies, dir) ->
       test = test_results[name]
       if not test
         status = 'error'
-        results.message = "missing test result for #{name}"
+        results.message = "missing test result for «#{name}»"
         break
 
       status = 'fail' if test.status != 'pass'
