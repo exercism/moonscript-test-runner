@@ -1,4 +1,4 @@
-FROM ubuntu:26.04@sha256:f3d28607ddd78734bb7f71f117f3c6706c666b8b76cbff7c9ff6e5718d46ff64 AS builder
+FROM ubuntu:26.04@sha256:f144425ff09be612d6d9ad965196e9cdc23dae1f42110a8a11a3e9a8198759f7 AS builder
 
 ENV LUA_VER="5.5.0"
 ENV LUA_CHECKSUM="57ccc32bbbd005cab75bcc52444052535af691789dba2b9016d5c50640d68b3d"
@@ -39,7 +39,7 @@ RUN luarocks install date
 RUN luarocks install lua-tz
 RUN luarocks install luatz
 
-FROM ubuntu:26.04@sha256:f3d28607ddd78734bb7f71f117f3c6706c666b8b76cbff7c9ff6e5718d46ff64
+FROM ubuntu:26.04@sha256:f144425ff09be612d6d9ad965196e9cdc23dae1f42110a8a11a3e9a8198759f7
 
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends jq tzdata && \
